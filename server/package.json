@@ -1,0 +1,40 @@
+{
+  "name": "jible-server",
+  "version": "1.0.0",
+  "description": "An on demand service that picks-up anything you requested through the app and delivers it to your door within one hour. The service is carried-out by independent couriers, called Robios 🚴‍♀️. who can take 1 or more orders to allow users to share the cost of delivery. ",
+  "main": "index.js",
+  "scripts": {
+    "web-install": "yarn install --prefix cd ../web",
+    "web": "cd ../web && yarn start",
+    "start": "babel-node src/index.js",
+    "server": "nodemon --exec babel-node src/index.js",
+    "dev": "concurrently \"yarn run server\" \"yarn run web\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/polyfill": "^7.2.5",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.0",
+    "mongoose": "^5.4.16",
+    "passport": "^0.4.0",
+    "passport-facebook": "^3.0.0",
+    "passport-facebook-token": "^3.3.0",
+    "passport-jwt": "^4.0.0",
+    "validator": "^10.11.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.0",
+    "@babel/node": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "babel-plugin-inline-dotenv": "^1.2.1",
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.18.10"
+  },
+  "author": "hicham ahendouz",
+  "license": "ISC"
+}
