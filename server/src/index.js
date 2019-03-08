@@ -17,8 +17,6 @@ const db = require("./database");
 mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", false);
 
-app.get("/", (req, res) => res.send("Hello"));
-
 const port = process.env.PORT || 4000;
 // Use our routes.
 app.use("/api/users", users);

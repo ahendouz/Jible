@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "validator": "^10.11.0"
+  }
+}

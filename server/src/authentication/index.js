@@ -1,6 +1,8 @@
 const bcrypt = require("bcryptjs");
 
 const createToken = require("../services/createToken");
+const validateSignin = require("../validation/signin");
+const validateSignup = require("../validation/signup");
 
 // Modeles.
 const User = require("../models/User");
@@ -11,6 +13,12 @@ const signup = async (
   { params: { type }, body: { name, email, password } },
   res
 ) => {
+  const { errors, isEmpty } = validateSignup(name, email, password);
+
+  // Validation.
+  if (!isEmpty) {
+    res.status(400).json(errors);
+  }
   // Profile = Rider || Consumer.
   let Profile;
 
@@ -46,6 +54,11 @@ const signup = async (
 };
 
 const signin = async ({ body: { email, password } }, res) => {
+  // Validation.
+  const { errors, isEmpty } = validateSignin(email, password);
+  if (!isEmpty) {
+    res.status(400).json(errors);
+  }
   // Find the user.
   const user = await User.findOne({ email });
 
