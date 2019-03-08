@@ -45,4 +45,26 @@ const signup = async (
   }
 };
 
-module.exports = { signup };
+const signin = async ({ body: { email, password } }, res) => {
+  // Find the user.
+  const user = await User.findOne({ email });
+
+  // If there is no user.
+  if (!user) {
+    return res.status(422).json("Email not found");
+  }
+
+  // Compear password.
+  const isValidPassword = await bcrypt.compare(password, user.password);
+  if (!isValidPassword) {
+    // Password is invalid.
+    return res.status(422).json("Password is invalid");
+  }
+
+  // Respond with a token.
+  return res.send({
+    token: `Bearer ${createToken({ user })}`
+  });
+};
+
+module.exports = { signup, signin };
