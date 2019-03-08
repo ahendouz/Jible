@@ -1,5 +1,7 @@
 import express from "express";
-require("dotenv").config({ path: ".env" });
+require("dotenv").config();
+
+import { db } from "./database";
 
 const app = express();
 
