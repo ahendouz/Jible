@@ -6,14 +6,13 @@
   "scripts": {
     "web-install": "yarn install --prefix cd ../web",
     "web": "cd ../web && yarn start",
-    "start": "babel-node src/index.js",
-    "server": "nodemon --exec babel-node src/index.js",
+    "start": "src/index.js",
+    "server": "nodemon src/index.js",
     "dev": "concurrently \"yarn run server\" \"yarn run web\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/polyfill": "^7.2.5",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "dotenv": "^6.2.0",
@@ -27,11 +26,6 @@
     "validator": "^10.11.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.0",
-    "@babel/core": "^7.2.0",
-    "@babel/node": "^7.2.0",
-    "@babel/preset-env": "^7.2.0",
-    "babel-plugin-inline-dotenv": "^1.2.1",
     "concurrently": "^4.1.0",
     "nodemon": "^1.18.10"
   },
