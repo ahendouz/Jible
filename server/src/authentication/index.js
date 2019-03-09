@@ -80,4 +80,42 @@ const signin = async ({ body: { email, password } }, res) => {
   });
 };
 
-module.exports = { signup, signin };
+const facebookOAuth = async (
+  {
+    user: {
+      _json: { name, email },
+      photos: [value]
+    },
+    params: { type }
+  },
+  res
+) => {
+  // Profile = Rider || Consumer.
+  let Profile;
+
+  type === "rider"
+    ? (Profile = Rider)
+    : type === "consumer"
+    ? (Profile = Consumer)
+    : res.status(403).json({ msg: "Not a valid user type" });
+
+  const user = await User.findOne({ email });
+  if (user) {
+    return res.send({
+      token: `Bearer ${createToken({ user })}`
+    });
+  }
+  const newUser = await new User({
+    method: "facebook",
+    type,
+    name,
+    email,
+    avatar: value.value
+  }).save();
+  const newProfile = await new Profile({ user: { _id: newUser.id } }).save();
+  return res.send({
+    token: `Bearer ${createToken({ user: newUser })}`
+  });
+};
+
+module.exports = { signup, signin, facebookOAuth };
