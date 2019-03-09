@@ -5,7 +5,6 @@ import { MyContext } from "../context/authTypeContext";
 import Banner from "./layout/Banner";
 import HowItWorks from "./layout/HowItWorks";
 import DownloadApp from "./layout/DownloadApp";
-import Footer from "./layout/Footer";
 
 class Home extends Component {
   render() {
@@ -17,7 +16,6 @@ class Home extends Component {
 
         <HowItWorks />
         <DownloadApp />
-        <Footer />
       </HomeStyle>
     );
   }

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { connect } from "react-redux";
-import { signupUserAction } from "../../actions/authActions";
+import {
+  signupUserAction,
+  facebookOAuthAction
+} from "../../actions/authActions";
 
 import { AuthDropStyle } from "../../styles";
 import TextFieldGroup from "../common/TextFieldGroup";
@@ -35,16 +37,10 @@ class Signup extends Component {
       password
     };
     signupUserAction(userType, newUser);
-    // axios
-    //   .post(`api/users/signup/${userType}`, newUser)
-    //   .then(res => console.log(res))
-    //   .catch(err => {
-    //     console.error(err);
-    //   });
   };
 
   render() {
-    const { closeDrop, userType } = this.props;
+    const { closeDrop, userType, facebookOAuthAction } = this.props;
     const { name, email, phone_number, password } = this.state;
     return (
       <AuthDropStyle onClick={closeDrop}>
@@ -84,7 +80,9 @@ class Signup extends Component {
             />
             <BtnGreenStyle type="submit">Signup</BtnGreenStyle>
           </form>
-          <BtnFbStyle onClick={() => handleFbOAuth(userType)}>
+          <BtnFbStyle
+            onClick={() => handleFbOAuth(userType, facebookOAuthAction)}
+          >
             Signup with facebook
           </BtnFbStyle>
         </div>
@@ -94,5 +92,5 @@ class Signup extends Component {
 }
 export default connect(
   null,
-  { signupUserAction }
+  { signupUserAction, facebookOAuthAction }
 )(Signup);

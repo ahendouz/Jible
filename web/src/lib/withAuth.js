@@ -9,7 +9,7 @@ const token = localStorage.jwtToken;
 if (token) {
   setAuthToken(token); // Set auth token to header auth.
   const decoded = jwt_decode(token); // Decode token and get user info and exp.
-  store.dispatch(setCurrentUser(decoded)); // Set user and isAuthenticated
+  setCurrentUser(decoded, store.dispatch); // Set user and isAuthenticated
 
   // Check for token expired token.
   const currentTime = Date.now() / 1000;

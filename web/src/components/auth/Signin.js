@@ -1,10 +1,15 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
 import { AuthDropStyle } from "../../styles";
 import TextFieldGroup from "../common/TextFieldGroup";
 import { Close } from "styled-icons/material/Close";
 import { BtnGreenStyle, BtnFbStyle } from "../../styles";
-import axios from "axios";
 import { handleFbOAuth } from "../../utils/handleFbOAuth";
+import {
+  signinUserAction,
+  facebookOAuthAction
+} from "../../actions/authActions";
 
 class Signin extends Component {
   state = {
@@ -21,21 +26,17 @@ class Signin extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
+    const { signinUserAction } = this.props;
     const { email, password } = this.state;
     const userInfo = {
       email,
       password
     };
-    axios
-      .post(`api/users/signin`, userInfo)
-      .then(res => console.log(res))
-      .catch(err => {
-        console.error(err);
-      });
+    signinUserAction(userInfo);
   };
 
   render() {
-    const { closeDrop, userType } = this.props;
+    const { closeDrop, userType, facebookOAuthAction } = this.props;
     const { email, password } = this.state;
     return (
       <AuthDropStyle onClick={closeDrop}>
@@ -61,7 +62,9 @@ class Signin extends Component {
             <BtnGreenStyle type="submit">signin</BtnGreenStyle>
           </form>
 
-          <BtnFbStyle onClick={() => handleFbOAuth(userType)}>
+          <BtnFbStyle
+            onClick={() => handleFbOAuth(userType, facebookOAuthAction)}
+          >
             Signin with facebook
           </BtnFbStyle>
         </div>
@@ -69,4 +72,7 @@ class Signin extends Component {
     );
   }
 }
-export default Signin;
+export default connect(
+  null,
+  { signinUserAction, facebookOAuthAction }
+)(Signin);

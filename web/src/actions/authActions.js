@@ -9,9 +9,9 @@ import { setAuthToken } from "../utils/setAuthToken";
 // Register user.
 export const signupUserAction = (userType, newUser) => dispatch => {
   axios
-    .post(`api/users/signup/${userType}`, newUser)
+    .post(`/api/users/signup/${userType}`, newUser)
     .then(res => {
-      test(res, dispatch);
+      setUser(res, dispatch);
     })
     .catch(err => {
       dispatch({
@@ -21,7 +21,36 @@ export const signupUserAction = (userType, newUser) => dispatch => {
     });
 };
 
-const test = (res, dispatch) => {
+export const signinUserAction = userInfo => dispatch => {
+  axios
+    .post("/api/users/signin", userInfo)
+    .then(res => {
+      setUser(res, dispatch);
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// Auth via facebook.
+export const facebookOAuthAction = (userType, data) => dispatch => {
+  axios
+    .post(`/api/users/oauth/facebook/${userType}`, data)
+    .then(res => {
+      setUser(res, dispatch);
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+const setUser = (res, dispatch) => {
   const { token } = res.data; // Save to localStorage.
 
   localStorage.setItem("jwtToken", token); // Set Token to localStorage.
@@ -30,14 +59,13 @@ const test = (res, dispatch) => {
 
   const decoded = jwt_decode(token); // Decode token to user data.
 
-  dispatch(setCurrentUser(decoded)); // Set current user.
+  setCurrentUser(decoded, dispatch); // Set current user.
 };
 
-export const setCurrentUser = decoded => {
-  return {
-    type: SET_CURRENT_USER,
-    payload: decoded
-  };
+export const setCurrentUser = (decoded, dispatch) => {
+  axios.get(`/api/profile/user/${decoded._id}`).then(res => {
+    dispatch({ type: SET_CURRENT_USER, payload: res.data.user }); // Set current user.
+  });
 };
 
 // Logout a user.

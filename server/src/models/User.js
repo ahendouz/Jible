@@ -8,6 +8,7 @@ const userSchema = new Schema({
   method: { type: String, enum: ["local", "facebook"], default: "local" },
   name: { type: String, require: true },
   email: { type: String, require: true, unique: true, lowercase: true },
+  number: { type: Number, unique: true },
   password: { type: String },
   avatar: {
     type: String,

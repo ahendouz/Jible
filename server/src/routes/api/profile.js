@@ -13,9 +13,11 @@ router.get("/test", (req, res) => res.json({ msg: "Profile Works" }));
 router.post(
   "/edit_profile",
   requireAuth,
-  async ({ user: { id }, body: { name, email, password, avatar } }, res) => {
+  async (
+    { user: { id }, body: { name, email, password, avatar, number } },
+    res
+  ) => {
     const { errors, isValid } = validateProfile(name, email, password);
-    console.log("🧩😘", errors);
     if (!isValid) {
       return res.status(400).json(errors);
     }
@@ -29,7 +31,8 @@ router.post(
           name,
           email,
           password,
-          avatar
+          avatar,
+          number
         };
         const user = await User.findOneAndUpdate(
           { _id: id },
@@ -41,5 +44,14 @@ router.post(
     });
   }
 );
+
+router.get("/user/:user_id", async ({ params: { user_id: _id } }, res) => {
+  // find user by it's id.
+  const user = await User.findOne({ _id });
+  res.status(200).json({ user });
+  if (!user) {
+    res.status(404).json({ msg: "User not fround" });
+  }
+});
 
 module.exports = router;

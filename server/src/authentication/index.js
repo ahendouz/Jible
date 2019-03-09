@@ -55,7 +55,7 @@ const signin = async ({ body: { email, password } }, res) => {
   // Validation.
   const { errors, isValid } = validateSignin(email, password);
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(400).json({ errors });
   }
   // Find the user.
   const user = await User.findOne({ email });

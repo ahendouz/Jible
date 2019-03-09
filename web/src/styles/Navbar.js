@@ -1,16 +1,14 @@
 import styled from "styled-components";
 
 export const NavbarStyle = styled.nav`
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
+  height: 10vh;
   width: 100%;
-  padding: 3.6rem 8rem;
+  padding: 0 8rem;
   display: flex;
   justify-content: space-between;
   .logo {
     width: 100px;
+    align-self: center;
     > img {
       width: 100%;
     }

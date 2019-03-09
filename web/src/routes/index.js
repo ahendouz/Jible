@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Home from "../components/Home";
 import Dashboard from "../components/Dashboard/Dashboard";
+import Footer from "../components/layout/Footer";
 
 export const Root = () => (
   <Router>
@@ -12,8 +13,9 @@ export const Root = () => (
       <Navbar />
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/dashboard" exact component={Dashboard} />
+        <Route path="/dashboard" component={Dashboard} />
       </Switch>
+      <Footer />
     </Fragment>
   </Router>
 );

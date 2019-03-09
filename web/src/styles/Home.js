@@ -1,12 +1,11 @@
 import styled from "styled-components";
 
 export const HomeStyle = styled.div`
-  position: relative;
   .banner {
-    position: relative;
+    margin-top: -10vh;
     min-height: 100vh;
     background: url("https://res.cloudinary.com/ahendouz/image/upload/v1551951721/Courier2-1-1.png")
-      no-repeat center;
+      no-repeat top;
     display: flex;
     justify-content: center;
     align-items: center;

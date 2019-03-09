@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+import Navbar from "./Navbar";
 import { Home } from "styled-icons/feather/Home";
 import { Motorcycle } from "styled-icons/fa-solid/Motorcycle";
 import { ArrowRight } from "styled-icons/feather/ArrowRight";
@@ -45,6 +46,7 @@ class Banner extends Component {
     return (
       <div className="banner">
         {drop}
+        {/* <Navbar /> */}
         <div className="contant wrapper">
           <p>
             an on demand service that picks-up anything you requested through
