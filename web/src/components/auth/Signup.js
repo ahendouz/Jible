@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
+import { signupUserAction } from "../../actions/authActions";
 
 import { AuthDropStyle } from "../../styles";
 import TextFieldGroup from "../common/TextFieldGroup";
@@ -25,19 +27,20 @@ class Signup extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { userType } = this.props;
+    const { userType, signupUserAction } = this.props;
     const { name, email, password } = this.state;
     const newUser = {
       name,
       email,
       password
     };
-    axios
-      .post(`api/users/signup/${userType}`, newUser)
-      .then(res => console.log(res))
-      .catch(err => {
-        console.error(err);
-      });
+    signupUserAction(userType, newUser);
+    // axios
+    //   .post(`api/users/signup/${userType}`, newUser)
+    //   .then(res => console.log(res))
+    //   .catch(err => {
+    //     console.error(err);
+    //   });
   };
 
   render() {
@@ -89,4 +92,7 @@ class Signup extends Component {
     );
   }
 }
-export default Signup;
+export default connect(
+  null,
+  { signupUserAction }
+)(Signup);

@@ -46,7 +46,6 @@ const signup = async (
     const newProfile = await new Profile({ user: { _id: newUser.id } }).save();
     // Return token.
     return res.status(200).json({
-      seccess: true,
       token: `Bearer ${createToken({ user: newUser })}`
     });
   }
