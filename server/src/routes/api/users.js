@@ -18,8 +18,7 @@ router.post("/signup/:type", signup);
 // POST - api/users/signin/:type - Signin user
 router.post("/signin", signin);
 
-// POST - api/users/signin - Authorize user via facebook.
-// router.post("/oauth/facebook", requireFbAuth, facebookOAuth);
+// POST - api/users/oauth/facebook/:type - Authorize user via facebook.
 router.post("/oauth/facebook/:type", requireFbAuth, facebookOAuth);
 
 module.exports = router;
