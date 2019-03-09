@@ -13,10 +13,10 @@ const signup = async (
   { params: { type }, body: { name, email, password } },
   res
 ) => {
-  const { errors, isEmpty } = validateSignup(name, email, password);
+  const { errors, isValid } = validateSignup(name, email, password);
 
   // Validation.
-  if (!isEmpty) {
+  if (!isValid) {
     res.status(400).json(errors);
   }
   // Profile = Rider || Consumer.
@@ -44,7 +44,6 @@ const signup = async (
 
     // Save a new (Robio or Customer) profile.
     const newProfile = await new Profile({ user: { _id: newUser.id } }).save();
-
     // Return token.
     return res.status(200).json({
       seccess: true,
@@ -55,8 +54,8 @@ const signup = async (
 
 const signin = async ({ body: { email, password } }, res) => {
   // Validation.
-  const { errors, isEmpty } = validateSignin(email, password);
-  if (!isEmpty) {
+  const { errors, isValid } = validateSignin(email, password);
+  if (!isValid) {
     res.status(400).json(errors);
   }
   // Find the user.
@@ -68,10 +67,14 @@ const signin = async ({ body: { email, password } }, res) => {
   }
 
   // Compear password.
-  const isValidPassword = await bcrypt.compare(password, user.password);
-  if (!isValidPassword) {
-    // Password is invalid.
-    return res.status(422).json("Password is invalid");
+  if (user.password) {
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
+      // Password is invalid.
+      return res.status(422).json("Password is invalid");
+    }
+  } else {
+    return res.status(400).json({ msg: "Please signin with facebook." });
   }
 
   // Respond with a token.

@@ -10,11 +10,12 @@
     "server": "nodemon src/index.js",
     "dev": "concurrently \"yarn run server\" \"yarn run web\""
   },
-  "author": "",
+  "author": "hicham ahendouz",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.0",
@@ -28,7 +29,5 @@
   "devDependencies": {
     "concurrently": "^4.1.0",
     "nodemon": "^1.18.10"
-  },
-  "author": "hicham ahendouz",
-  "license": "ISC"
+  }
 }
