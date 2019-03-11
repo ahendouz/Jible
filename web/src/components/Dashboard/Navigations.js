@@ -1,13 +1,27 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Navigations = () => {
+  const styles = {
+    color: "white",
+    padding: "1rem 10rem 1rem 3rem",
+    borderRadius: "5px",
+    background: "#419d78"
+  };
   return (
     <div>
-      <Link to="/dashboard/my_bags">my bags</Link>
-      <Link to="/dashboard/profile">my profile</Link>
-      <Link to="/dashboard/my_address">my address</Link>
-      <Link to="/dashboard/fqa">FAQ</Link>
+      <NavLink activeStyle={styles} to="/dashboard/my_bags">
+        my bags
+      </NavLink>
+      <NavLink activeStyle={styles} to="/dashboard/profile">
+        my profile
+      </NavLink>
+      <NavLink activeStyle={styles} to="/dashboard/my_address">
+        my address
+      </NavLink>
+      <NavLink activeStyle={styles} to="/dashboard/fqa">
+        FAQ
+      </NavLink>
     </div>
   );
 };

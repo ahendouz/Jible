@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="13px" height="13px" viewBox="0 0 13 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
+    <title>Plus</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-80.000000, -309.000000)" fill="#000000" fill-rule="nonzero">
+            <g id="Plus" transform="translate(80.000000, 309.000000)">
+                <path d="M5.5,0.799999952 C5.5,0.358172179 5.85817218,0 6.29999995,0 C6.74182773,0 7.0999999,0.358172179 7.0999999,0.799999952 L7.0999999,11.8 C7.0999999,12.2418277 6.74182773,12.5999999 6.29999995,12.5999999 C5.85817218,12.5999999 5.5,12.2418277 5.5,11.8 L5.5,0.799999952 Z" id="Path"></path>
+                <path d="M0.799999952,7.0999999 C0.358172179,7.0999999 0,6.74182773 0,6.29999995 C0,5.85817218 0.358172179,5.5 0.799999952,5.5 L11.8,5.5 C12.2418277,5.5 12.5999999,5.85817218 12.5999999,6.29999995 C12.5999999,6.74182773 12.2418277,7.0999999 11.8,7.0999999 L0.799999952,7.0999999 Z" id="Path"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,20 +1,30 @@
 import React from "react";
+import { connect } from "react-redux";
+
 import NavbarUnAuth from "../../components/NavbarState/NavbarUnAuth";
-// import NavbarAuth from "../../components/NavbarState/NavbarAuth";
+import NavbarAuth from "../../components/NavbarState/NavbarAuth";
 
 import { NavbarStyle } from "../../styles/Navbar";
 import Logo from "../../ui/Logo";
 
-const Navbar = () => {
+const Navbar = ({ isAuthenticated, user }) => {
   return (
     <NavbarStyle>
-      <Logo type="main" />
+      <Logo type={isAuthenticated ? "auth" : "main"} />
       <div className="navbar_state">
-        <NavbarUnAuth />
-        {/* <NavbarAuth /> */}
+        {isAuthenticated ? <NavbarAuth user={user} /> : <NavbarUnAuth />}
       </div>
     </NavbarStyle>
   );
 };
 
-export default Navbar;
+const mapStateToProps = ({
+  auth: {
+    isAuthenticated,
+    user: { name, avatar }
+  }
+}) => ({
+  isAuthenticated,
+  user: { name, avatar }
+});
+export default connect(mapStateToProps)(Navbar);

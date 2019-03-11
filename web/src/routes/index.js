@@ -1,5 +1,10 @@
 import React, { Fragment } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
 
 // Components.
 import Navbar from "../components/layout/Navbar";
@@ -16,6 +21,7 @@ export const Root = () => (
         <Route path="/" exact component={Home} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/request_bag" component={RequestBag} />
+        {/* <Redirect to="/" />; */}
       </Switch>
       <Footer />
     </Fragment>

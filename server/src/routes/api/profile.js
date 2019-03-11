@@ -17,6 +17,7 @@ router.post(
     { user: { id }, body: { name, email, password, avatar, number } },
     res
   ) => {
+    // TODO: CHECK IF THE METHOD IS FB OR LOCAL
     const { errors, isValid } = validateProfile(name, email, password);
     if (!isValid) {
       return res.status(400).json(errors);
@@ -47,10 +48,13 @@ router.post(
 
 router.get("/user/:user_id", async ({ params: { user_id: _id } }, res) => {
   // find user by it's id.
-  const user = await User.findOne({ _id });
-  res.status(200).json({ user });
-  if (!user) {
-    res.status(404).json({ msg: "User not fround" });
+  try {
+    const user = await User.findOne({ _id });
+    if (user) {
+      return res.status(200).json({ user });
+    }
+  } catch (err) {
+    return res.json({ msg: "User not fround" });
   }
 });
 

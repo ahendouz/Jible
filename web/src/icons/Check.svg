@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="11px" height="9px" viewBox="0 0 11 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
+    <title>Check</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-81.000000, -582.000000)" fill="#419D78" fill-rule="nonzero">
+            <g id="Check" transform="translate(81.000000, 582.750000)">
+                <path d="M3.66666667,6.51433012 L9.95676808,0.180241981 C10.1954218,-0.0600806603 10.582356,-0.0600806603 10.8210097,0.180241981 C11.0596634,0.420564622 11.0596634,0.810204609 10.8210097,1.05052725 L4.09878748,7.81975802 C3.86013374,8.06008066 3.47319959,8.06008066 3.23454586,7.81975802 L0.1789903,4.74283494 C-0.0596634335,4.5025123 -0.0596634335,4.11287231 0.1789903,3.87254967 C0.417644034,3.63222703 0.804578188,3.63222703 1.04323192,3.87254967 L3.66666667,6.51433012 Z" id="Path"></path>
+            </g>
+        </g>
+    </g>
+</svg>

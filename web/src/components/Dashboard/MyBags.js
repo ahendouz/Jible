@@ -1,7 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 
-const MyBugs = () => {
-  return <div>my bug</div>;
-};
-
-export default MyBugs;
+class MyBags extends Component {
+  render() {
+    return <div>MyBags</div>;
+  }
+}
+export default MyBags;

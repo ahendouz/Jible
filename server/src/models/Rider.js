@@ -8,7 +8,9 @@ const riderSchema = new Schema({
   isConnected: {
     type: Boolean,
     default: true
-  }
+  },
+  location: { type: { type: String }, coordinates: [] }
 });
 
+riderSchema.index({ location: "2dsphere" });
 module.exports = Rider = mongoose.model("rider", riderSchema);

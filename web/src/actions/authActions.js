@@ -64,6 +64,7 @@ const setUser = (res, dispatch) => {
 
 export const setCurrentUser = (decoded, dispatch) => {
   axios.get(`/api/profile/user/${decoded._id}`).then(res => {
+    console.log("-----------------", res);
     dispatch({ type: SET_CURRENT_USER, payload: res.data.user }); // Set current user.
   });
 };

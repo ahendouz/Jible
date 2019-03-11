@@ -5,7 +5,7 @@ import Logo from "../../ui/Logo";
 
 const Footer = () => {
   return (
-    <FooterStyle className="wrapper">
+    <FooterStyle>
       <Logo type="footer" />
       <ul className="links">
         <li>About</li>

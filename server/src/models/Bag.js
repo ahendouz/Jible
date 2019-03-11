@@ -9,7 +9,8 @@ const BagSchema = {
   coordinates: { type: Number },
   from: { type: String, required: true },
   to: { type: String, required: true },
-  rider: { type: Schema.Types.ObjectId, ref: "users" }
+  rider: { type: Schema.Types.ObjectId, ref: "users" },
+  location: { type: { type: String }, coordinates: [] }
 };
 
 module.exports = Bug = mongoose.model("bug", BagSchema);

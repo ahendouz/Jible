@@ -14,8 +14,21 @@ class MyProfile extends Component {
     errors: {}
   };
 
+  componentDidMount = () => {
+    const {
+      user: { name, email, avatar, number }
+    } = this.props;
+
+    this.fillForms(name, email, avatar, number);
+  };
+
   componentWillReceiveProps = nextProps => {
     const { name, email, avatar, number } = nextProps.user;
+    console.log("💕");
+    this.fillForms(name, email, avatar, number);
+  };
+
+  fillForms = (name, email, avatar, number) => {
     this.setState({ name, email, avatar, number });
   };
 
@@ -45,47 +58,63 @@ class MyProfile extends Component {
     const {
       user: { method }
     } = this.props;
-    console.log(method);
+    console.log("🚨🚨🌝", this.props);
     return (
-      <div>
+      <div className="dashboard_edit-profile">
         <div>
-          <div>user info</div>
+          <div className="user_info">
+            <div className="user_avatar">
+              <img
+                src="https://d3iw72m71ie81c.cloudfront.net/female-75.jpg"
+                alt="user profile avatar"
+              />
+            </div>
+            <div className="info">
+              <p>{name}</p>
+              <p>{number}</p>
+            </div>
+          </div>
           <form onSubmit={this.handleSubmit}>
             <TextFieldGroup
-              placeholder="Full name"
+              placeholder=""
               name="name"
               type="text"
               value={name}
+              info="Full name"
               onChange={this.handleChange}
             />
             <TextFieldGroup
-              placeholder="Email Address"
+              placeholder=" "
               name="email"
               type="email"
               value={email}
+              info="Email Address"
               onChange={this.handleChange}
             />
             <TextFieldGroup
-              placeholder="Profile image"
+              placeholder=""
               name="avatar"
-              type="avatar"
+              type="text"
               value={avatar}
+              info="Profile image"
               onChange={this.handleChange}
             />
             {method !== "facebook" && (
               <TextFieldGroup
-                placeholder="Your Password"
+                placeholder=""
                 name="password"
                 type="password"
                 value={password}
+                info="Your Password"
                 onChange={this.handleChange}
               />
             )}
             <TextFieldGroup
-              placeholder="Your Phone Number"
+              placeholder=""
               name="number"
               type="number"
               value={number}
+              info="Phone"
               onChange={this.handleChange}
             />
             <BtnBlueStyle type="submit">Update</BtnBlueStyle>

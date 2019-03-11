@@ -28,6 +28,21 @@ export const NavbarStyle = styled.nav`
       }
     }
     .navbar_authorized {
+      display: flex;
+      align-items: center;
+      > div {
+        width: 30px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 1rem;
+        img {
+          width: 100%;
+          vertical-align: top;
+        }
+      }
+      p {
+        font-size: 1.2rem;
+      }
     }
   }
 `;
