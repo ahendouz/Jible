@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import { BtnGreenStyle } from "../../styles";
 import TextFieldGroup from "../common/TextFieldGroup";
+import { getMap } from "../../utils/getMap";
 
 class RequistBag extends Component {
   state = {
@@ -11,7 +12,11 @@ class RequistBag extends Component {
     items: "",
     from: "",
     to: "",
-    orderProcess: "start"
+    distance: "",
+    ridePrice: "",
+    time: "",
+    shapePoints: [],
+    bagProcess: "request"
   };
 
   handleChange = e => {
@@ -22,14 +27,7 @@ class RequistBag extends Component {
   };
 
   componentDidMount = () => {
-    window.L.mapquest.key = "iKQ5jnvoW6jeJCwdTYpIMevMRlkYgtAz";
-
-    // 'map' refers to a <div> element with the ID map
-    window.L.mapquest.map("map", {
-      center: [33.995647, -6.846076],
-      layers: window.L.mapquest.tileLayer("dark"),
-      zoom: 12
-    });
+    getMap();
     this.setLocation();
   };
 
@@ -37,14 +35,6 @@ class RequistBag extends Component {
     if (nextState.shapePoints.length > 1) {
       this.setLocation(nextState.shapePoints);
     }
-  };
-
-  setLocation = (
-    shapePoints = [[33.995647, -6.846076], [33.995647, -6.846076]]
-  ) => {
-    window.L.mapquest.directions().route({
-      waypoints: shapePoints
-    });
   };
 
   handleSubmit = e => {
@@ -58,21 +48,42 @@ class RequistBag extends Component {
       orderProcess: "ready to order"
     };
 
-    axios.post("api/request/request_bag", bagDescription).then(res => {
-      // TODO Redirct to my bugs
-      const { distance, ridePrice, shapePoints, time } = res.data;
-      console.log("🔥🔥🔥🔥shapePoints🔥🔥🔥🔥", shapePoints);
-      this.setState({
-        distance,
-        ridePrice,
-        shapePoints,
-        time
+    axios
+      .post("api/request/request_bag", bagDescription)
+      .then(res => {
+        const { distance, ridePrice, shapePoints, time } = res.data;
+        this.setState({
+          distance,
+          ridePrice,
+          shapePoints,
+          time,
+          bagProcess: "between"
+        });
+      })
+      .catch(err => {
+        console.log(err);
       });
+  };
+
+  setLocation = (
+    shapePoints = [[33.995647, -6.846076], [33.995647, -6.846076]]
+  ) => {
+    window.L.mapquest.directions().route({
+      waypoints: shapePoints
     });
   };
 
   render() {
-    const { description, items, from, to } = this.state;
+    const {
+      description,
+      items,
+      from,
+      to,
+      ridePrice,
+      distance,
+      bagProcess,
+      time
+    } = this.state;
     return (
       <RequestBagStyles className="wrapper">
         <h1>Request a bag</h1>
@@ -108,7 +119,21 @@ class RequistBag extends Component {
             <BtnGreenStyle type="submit">Order now</BtnGreenStyle>
           </form>
 
-          <div id="map" />
+          <div id="map">
+            {bagProcess === "between" && (
+              <div className="bag_info">
+                <div>
+                  <p>Estimated Price</p>
+                  <p>{ridePrice}</p>
+                </div>
+                <div>
+                  <p>Estimated time and distance</p>
+                  <p className="distance">{`${distance}km`}</p> <span>/</span>
+                  <p className="time">{time}</p>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </RequestBagStyles>
     );
@@ -121,7 +146,7 @@ const RequestBagStyles = styled.div`
   min-height: 70vh;
   > h1 {
     font-size: 3.2rem;
-    margin-bottom: 3rem;
+    margin-bottom: 5rem;
   }
   > div {
     display: flex;
@@ -136,7 +161,44 @@ const RequestBagStyles = styled.div`
     > div {
       flex: 1;
       margin-left: 1rem;
-      background: #eee;
+      .bag_info {
+        border: 1px solid gray;
+        border-radius: 3px;
+        padding: 1rem;
+        background: ${props => props.theme.white};
+        font-family: Regular;
+        position: absolute;
+        bottom: 0;
+        left: 0px;
+        width: 96.5%;
+        z-index: 9999;
+        margin: 2%;
+        display: inline-block;
+        > div {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          > p:first-child {
+            font-size: 1.6rem;
+          }
+          > p:last-child {
+            color: ${props => props.theme.green};
+          }
+        }
+        > div:last-child {
+          > p:first-child {
+            font-size: 1rem;
+            margin-right: auto;
+          }
+          > p:not(:first-child) {
+            color: ${props => props.theme.gray_1};
+          }
+          span {
+            margin: 0 2px;
+            color: ${props => props.theme.gray_1};
+          }
+        }
+      }
     }
   }
 `;

@@ -11,6 +11,7 @@ class MyProfile extends Component {
     email: "",
     password: "",
     avatar: "",
+    number: "",
     errors: {}
   };
 
@@ -57,20 +58,18 @@ class MyProfile extends Component {
     const {
       user: { method }
     } = this.props;
-    console.log("🚨🚨🌝", this.props);
     return (
       <div className="dashboard_edit-profile">
         <div>
           <div className="user_info">
-            <div className="user_avatar">
-              <img
-                src="https://d3iw72m71ie81c.cloudfront.net/female-75.jpg"
-                alt="user profile avatar"
-              />
+            <div className="user_avatar" style={{ alignSelf: "flex-start" }}>
+              <img src={avatar} alt="user profile avatar" />
             </div>
             <div className="info">
               <p>{name}</p>
-              <p>{number}</p>
+              <p style={{ fontSize: "1.1rem", color: "#ccc" }}>
+                {!number ? "Add your phone number" : number}
+              </p>
             </div>
           </div>
           <form onSubmit={this.handleSubmit}>

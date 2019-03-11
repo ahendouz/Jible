@@ -1,11 +1,11 @@
 import React from "react";
+import { Bell } from "styled-icons/boxicons-regular/Bell";
 
 const NavbarAuth = ({ user: { name, avatar } }) => {
-  console.log("🚌🚌🚌🚌", avatar);
   return (
     <div className="navbar_authorized">
+      <Bell />
       <div>
-        {/* TODO: change the pict to a valid pict */}
         <img src={avatar} alt="user profile avatar" />
       </div>
       <p>{name}</p>

@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Logo = ({ type }) => {
   return (
-    <div className="logo" style={{ width: "100px" }}>
+    <Link to="/" className="logo" style={{ width: "100px" }}>
       <img
         style={{ width: "100%" }}
         src={`https://res.cloudinary.com/ahendouz/image/upload/c_scale,w_200/${
@@ -12,7 +13,7 @@ const Logo = ({ type }) => {
         }`}
         alt="jible logo"
       />
-    </div>
+    </Link>
   );
 };
 export default Logo;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const NavbarStyle = styled.nav`
-  height: 10vh;
+  height: 15vh;
   width: 100%;
   padding: 0 8rem;
   display: flex;
@@ -30,6 +30,10 @@ export const NavbarStyle = styled.nav`
     .navbar_authorized {
       display: flex;
       align-items: center;
+      > svg {
+        width: 22px;
+        margin-right: 2rem;
+      }
       > div {
         width: 30px;
         border-radius: 50%;

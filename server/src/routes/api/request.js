@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const validateRequestBag = require("../../validation/request_bag");
+
 const isValidLocation = require("../../utils/isValidLocation");
 const possibleRoutes = require("../../utils/possibleRoutes");
 const getLocation = require("../../utils/getLocation");
 const formatShapePoints = require("../../utils/formatShapePoints");
+const reduceShapePoints = require("../../utils/reduceShapePoints");
 
 const requireAuth = require("../../utils/requireAuth");
 const Bag = require("../../models/Bag");
@@ -15,6 +18,15 @@ router.post(
   // requireAuth,
   async ({ body: { description, items, from, to } }, res) => {
     // TODO - Check the validation of description, items, from, to
+    const { errors, isValid } = validateRequestBag(
+      description,
+      items,
+      from,
+      to
+    );
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
 
     // Check if the location is valid
     if (!(await isValidLocation(from)) || !(await isValidLocation(to))) {
@@ -28,8 +40,12 @@ router.post(
     const time = `${data.formattedTime} min`;
     const distance = parseInt(data.distance);
 
-    const shapePoints = formatShapePoints(data.shapePoints);
-    console.log(shapePoints);
+    let shapePoints = formatShapePoints(data.shapePoints);
+    if (shapePoints.length > 50) {
+      shapePoints = reduceShapePoints(shapePoints);
+    }
+    console.log("🧠", shapePoints.length);
+
     return res.json({
       shapePoints: shapePoints,
       ridePrice,
@@ -44,7 +60,7 @@ router.post(
 );
 
 router.post("/add_bag", async (req, res) => {
-  // TODO - Check the validation of description, items, from, to
+  //  Check the validation of description, items, from, to
 
   // Check if the location is valid
   if (!(await isValidLocation(from)) || !(await isValidLocation(to))) {

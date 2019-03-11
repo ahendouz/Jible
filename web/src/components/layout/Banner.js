@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
-import Navbar from "./Navbar";
-import { Home } from "styled-icons/feather/Home";
-import { Motorcycle } from "styled-icons/fa-solid/Motorcycle";
+import { ReactComponent as Helmet } from "../../icons/helmet.svg";
+import { ReactComponent as Home } from "../../icons/home 2.svg";
+
 import { ArrowRight } from "styled-icons/feather/ArrowRight";
 
 import Signin from "../auth/Signin";
@@ -46,7 +46,6 @@ class Banner extends Component {
     return (
       <div className="banner">
         {drop}
-        {/* <Navbar /> */}
         <div className="contant wrapper">
           <p>
             an on demand service that picks-up anything you requested through
@@ -67,7 +66,7 @@ class Banner extends Component {
                 this.setState({ opened: true, userType: "rider" });
               }}
             >
-              <Motorcycle />
+              <Helmet />
               {`${authType} as a rider`}
               <ArrowRight className="arrow" />
             </BtnWhiteStyle>

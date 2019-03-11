@@ -13,14 +13,16 @@ import Dashboard from "../components/Dashboard/Dashboard";
 import RequestBag from "../components/RequestBag/RequestBag";
 import Footer from "../components/layout/Footer";
 
+import PrivateRoute from "../lib/PrivateRoute";
+
 export const Root = () => (
   <Router>
     <Fragment>
       <Navbar />
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/request_bag" component={RequestBag} />
+        <PrivateRoute path="/dashboard" component={Dashboard} />
+        <PrivateRoute path="/request_bag" component={RequestBag} />
         {/* <Redirect to="/" />; */}
       </Switch>
       <Footer />

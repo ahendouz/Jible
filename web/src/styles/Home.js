@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const HomeStyle = styled.div`
   .banner {
-    margin-top: -10vh;
+    margin-top: -15vh;
     min-height: 100vh;
     background: url("https://res.cloudinary.com/ahendouz/image/upload/v1551951721/Courier2-1-1.png")
       no-repeat top;
@@ -36,7 +36,8 @@ export const HomeStyle = styled.div`
             margin-left: 2rem;
           }
           svg {
-            width: 30px;
+            width: 25px;
+            height: 25px;
             margin-right: 27px;
           }
           .arrow {
@@ -50,7 +51,7 @@ export const HomeStyle = styled.div`
   }
   .how_it_works {
     text-align: center;
-    padding: 5rem 0;
+    padding: 8rem 0;
     font-size: 1.3rem;
 
     > h1 {
@@ -61,6 +62,14 @@ export const HomeStyle = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: center;
+      .block {
+        h1 {
+          color: ${props => props.theme.green};
+        }
+        p {
+          color: ${props => props.theme.gray_1};
+        }
+      }
     }
   }
   .download_app {
@@ -74,7 +83,7 @@ export const HomeStyle = styled.div`
       width: 40%;
       img {
         width: 100%;
-        margin-bottom: -1rem;
+        margin-bottom: -2.8%;
       }
     }
     .stores {
