@@ -13,6 +13,7 @@ class RequistBag extends Component {
     to: "",
     orderProcess: "start"
   };
+
   handleChange = e => {
     const { name, value } = e.target;
     this.setState({
@@ -27,11 +28,22 @@ class RequistBag extends Component {
     window.L.mapquest.map("map", {
       center: [33.995647, -6.846076],
       layers: window.L.mapquest.tileLayer("dark"),
-      // layers: window.L.mapquest.tileLayer("map"),
       zoom: 12
     });
+    this.setLocation();
+  };
+
+  componentWillUpdate = (nextProps, nextState) => {
+    if (nextState.shapePoints.length > 1) {
+      this.setLocation(nextState.shapePoints);
+    }
+  };
+
+  setLocation = (
+    shapePoints = [[33.995647, -6.846076], [33.995647, -6.846076]]
+  ) => {
     window.L.mapquest.directions().route({
-      waypoints: this.state.shapePoints && this.state.shapePoints
+      waypoints: shapePoints
     });
   };
 
@@ -49,6 +61,7 @@ class RequistBag extends Component {
     axios.post("api/request/request_bag", bagDescription).then(res => {
       // TODO Redirct to my bugs
       const { distance, ridePrice, shapePoints, time } = res.data;
+      console.log("🔥🔥🔥🔥shapePoints🔥🔥🔥🔥", shapePoints);
       this.setState({
         distance,
         ridePrice,
@@ -57,6 +70,7 @@ class RequistBag extends Component {
       });
     });
   };
+
   render() {
     const { description, items, from, to } = this.state;
     return (
@@ -94,7 +108,7 @@ class RequistBag extends Component {
             <BtnGreenStyle type="submit">Order now</BtnGreenStyle>
           </form>
 
-          <div id="map">map</div>
+          <div id="map" />
         </div>
       </RequestBagStyles>
     );

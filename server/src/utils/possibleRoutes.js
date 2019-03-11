@@ -4,9 +4,8 @@ const possibleRoutes = async (from, to) => {
   const response = await axios.get(
     `http://www.mapquestapi.com/directions/v2/alternateroutes?key=${
       process.env.MAP_SECRET
-    }&from=${from}&to=${to}&maxRoutes=5`
+    }&from=${from}&to=${to}&maxRoutes=5&generalize=500`
   );
-  // alternateRoutes[].0.route.shape.shapePoints
   const {
     distance,
     formattedTime,

@@ -24,7 +24,6 @@ class MyProfile extends Component {
 
   componentWillReceiveProps = nextProps => {
     const { name, email, avatar, number } = nextProps.user;
-    console.log("💕");
     this.fillForms(name, email, avatar, number);
   };
 

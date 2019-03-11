@@ -3,6 +3,7 @@ const router = express.Router();
 const isValidLocation = require("../../utils/isValidLocation");
 const possibleRoutes = require("../../utils/possibleRoutes");
 const getLocation = require("../../utils/getLocation");
+const formatShapePoints = require("../../utils/formatShapePoints");
 
 const requireAuth = require("../../utils/requireAuth");
 const Bag = require("../../models/Bag");
@@ -27,10 +28,10 @@ router.post(
     const time = `${data.formattedTime} min`;
     const distance = parseInt(data.distance);
 
-    console.log(data.shapePoints);
-
+    const shapePoints = formatShapePoints(data.shapePoints);
+    console.log(shapePoints);
     return res.json({
-      shapePoints: data.shapePoints,
+      shapePoints: shapePoints,
       ridePrice,
       time,
       distance
