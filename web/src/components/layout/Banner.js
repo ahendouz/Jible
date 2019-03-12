@@ -25,6 +25,11 @@ class Banner extends Component {
 
   componentWillReceiveProps = nextProps => {
     this.setState({ authType: nextProps.authType });
+    if (nextProps.authType === "signin") {
+      this.setState({
+        opened: true
+      });
+    }
   };
 
   closeDrop = () => {

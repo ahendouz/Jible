@@ -46,6 +46,18 @@ export const NavbarStyle = styled.nav`
       }
       p {
         font-size: 1.2rem;
+        position: relative;
+        &:hover > button {
+          visibility: visible;
+        }
+        > button {
+          position: absolute;
+          bottom: -200%;
+          left: 0%;
+          width: 100%;
+          background: ${props => props.theme.gray_2};
+          visibility: hidden;
+        }
       }
     }
   }

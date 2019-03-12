@@ -63,14 +63,18 @@ const setUser = (res, dispatch) => {
 };
 
 export const setCurrentUser = (decoded, dispatch) => {
-  axios.get(`/api/profile/user/${decoded._id}`).then(res => {
-    dispatch({ type: SET_CURRENT_USER, payload: res.data.user }); // Set current user.
-  });
+  axios
+    .get(`/api/profile/user/${decoded._id}`)
+    .then(res => {
+      dispatch({ type: SET_CURRENT_USER, payload: res.data.user }); // Set current user.
+    })
+    .catch(err => dispatch({ type: SET_CURRENT_USER, payload: {} }));
 };
 
 // Logout a user.
-export const logoutUser = () => dispatch => {
+export const logoutUser = history => dispatch => {
+  history.push("/");
   localStorage.removeItem("jwtToken"); // Remove token from local storage.
   setAuthToken(false); // Remove auth header for future requests.
-  dispatch(setCurrentUser({})); // Set current user to {} which will set isAuthenticated to false.
+  dispatch({ type: SET_CURRENT_USER, payload: {} }); // Set current user to {} which will set isAuthenticated to false.
 };

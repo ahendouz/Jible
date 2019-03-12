@@ -42,12 +42,13 @@ class MyProfile extends Component {
   handleSubmit = e => {
     e.preventDefault();
     // const { signinUserAction } = this.props;
-    const { name, email, password, avatar } = this.state;
+    const { name, email, password, number, avatar } = this.state;
     const { editUserProfileAction } = this.props;
     const profileFields = {
       name,
       email,
       password,
+      number,
       avatar
     };
     editUserProfileAction(profileFields);

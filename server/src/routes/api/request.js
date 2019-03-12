@@ -17,7 +17,7 @@ router.post(
   "/request_bag",
   // requireAuth,
   async ({ body: { description, items, from, to } }, res) => {
-    // TODO - Check the validation of description, items, from, to
+    // Check the validation of description, items, from, to
     const { errors, isValid } = validateRequestBag(
       description,
       items,

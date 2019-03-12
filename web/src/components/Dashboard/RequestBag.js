@@ -8,7 +8,7 @@ const RequistBag = () => {
     <div>
       <Link to="/request_bag">
         <BtnGreenStyle style={{ padding: "5rem 3rem" }}>
-          <p>request sckara</p>
+          <p>Request a bag</p>
         </BtnGreenStyle>
       </Link>
     </div>
