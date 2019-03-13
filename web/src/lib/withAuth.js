@@ -4,6 +4,8 @@ import jwt_decode from "jwt-decode";
 import { store } from "../store";
 import { setCurrentUser, logoutUser } from "../actions/authActions";
 
+import { getUserLocation, test } from "../utils/getUserLocation";
+
 const token = localStorage.jwtToken;
 // Check for token
 if (token) {
@@ -19,3 +21,6 @@ if (token) {
     window.location.href = "signin"; // Redirect to signin
   }
 }
+
+// Get location of the user.
+getUserLocation(store);

@@ -15,6 +15,11 @@ const userSchema = new Schema({
     default:
       "https://res.cloudinary.com/ahendouz/image/upload/v1545928173/avatar-.jpg"
   },
+  isConnected: {
+    type: Boolean,
+    default: true
+  },
+  location: { type: { type: String }, coordinates: [] },
   date: { type: Date, default: Date.now }
 });
 

@@ -8,6 +8,8 @@ import { theme } from "./theme";
 import "./index.css";
 import { store } from "./store";
 import withAuth from "./lib/withAuth";
+import liveLocation from "./lib/liveLocation";
+// import liveLocation from "/lib/liveLocation";
 
 ReactDOM.render(
   <Provider store={store}>

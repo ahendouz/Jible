@@ -17,7 +17,6 @@ router.post(
     { user: { id }, body: { name, email, password, avatar, number } },
     res
   ) => {
-    console.log("🚨", number);
     const { errors, isValid } = validateProfile(name, email, password);
     if (!isValid) {
       return res.status(400).json(errors);

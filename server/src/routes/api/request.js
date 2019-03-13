@@ -47,6 +47,7 @@ router.post(
     console.log("🧠", shapePoints.length);
 
     return res.json({
+      success: true,
       shapePoints: shapePoints,
       ridePrice,
       time,
@@ -59,14 +60,7 @@ router.post(
   }
 );
 
-router.post("/add_bag", async (req, res) => {
-  //  Check the validation of description, items, from, to
-
-  // Check if the location is valid
-  if (!(await isValidLocation(from)) || !(await isValidLocation(to))) {
-    return res.json({ msg: "please pass a valid  location" });
-  }
-
+router.post("/add_bag", async ({ body: { from, to } }, res) => {
   // Find all the possible routes
   const data = await possibleRoutes(from, to);
 
@@ -89,6 +83,7 @@ router.post("/add_bag", async (req, res) => {
   );
 
   // TODO: Check if the Rider has already a bag.
+  return res.json({ from });
   // TODO: If yes send a request to the owner of the bag a shared bag reqest.
   // TODO: if he acespt than we assign it to that Rider.
   // TODO: if he doesnt accept we call function Assign the bag to another Rider except the last one.

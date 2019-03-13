@@ -25,5 +25,21 @@ router.post(
     return res.status(200).json({ address });
   }
 );
+// res.vonnection.server = server
+
+router.post("/users_location", requireAuth, async (req, res) => {
+  return res.json(req.body);
+});
+
+console.log(router);
+// const server = require("http").Server(app);
+// const io = require("socket.io")(server);
+
+// io.on("connection", socket => {
+//   console.log("connected is🙄is🙄is🙄is🙄is🙄is🙄 happened ");
+//   socket.on("location", data => {
+//     console.log(data);
+//   });
+// });
 
 module.exports = router;

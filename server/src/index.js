@@ -10,6 +10,9 @@ const location = require("./routes/api/location");
 
 const app = express();
 
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
+
 // Middlewares.
 app.use(require("./middleware"));
 
@@ -25,4 +28,10 @@ app.use("/api/profile", profile);
 app.use("/api/request", request);
 app.use("/api/location", location);
 
-app.listen(port, () => console.log(`Server is running on port ${port} 🚀🚀🚀`));
+server.listen(port, () =>
+  console.log(`Server is running on port ${port} 🚀🚀🚀`)
+);
+
+const updateUsersLocation = require("./utils/updateUsersLocation");
+
+updateUsersLocation(server);

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import { connect } from "react-redux";
 
 import { BtnGreenStyle } from "../../styles";
 import TextFieldGroup from "../common/TextFieldGroup";
@@ -27,7 +28,7 @@ class RequistBag extends Component {
   };
 
   componentDidMount = () => {
-    getMap();
+    getMap([this.props.lat, this.props.lng]);
     this.setLocation();
   };
 
@@ -39,7 +40,7 @@ class RequistBag extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { description, items, from, to } = this.state;
+    const { success, bagProcess, description, items, from, to } = this.state;
     const bagDescription = {
       description,
       items,
@@ -47,22 +48,29 @@ class RequistBag extends Component {
       to,
       orderProcess: "ready to order"
     };
-
-    axios
-      .post("api/request/request_bag", bagDescription)
-      .then(res => {
-        const { distance, ridePrice, shapePoints, time } = res.data;
-        this.setState({
-          distance,
-          ridePrice,
-          shapePoints,
-          time,
-          bagProcess: "between"
+    if (bagProcess === "request") {
+      axios
+        .post("api/request/request_bag", bagDescription)
+        .then(res => {
+          const { success, distance, ridePrice, shapePoints, time } = res.data;
+          this.setState({
+            success,
+            distance,
+            ridePrice,
+            shapePoints,
+            time,
+            bagProcess: "between"
+          });
+        })
+        .catch(err => {
+          console.log(err);
         });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    } else if (bagProcess === "between" && success) {
+      axios
+        .post("api/request/add_bag", bagDescription)
+        .then(res => console.log("🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼", res.data))
+        .catch(err => console.log("🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼", err));
+    }
   };
 
   setLocation = (
@@ -139,7 +147,12 @@ class RequistBag extends Component {
     );
   }
 }
-export default RequistBag;
+
+const mapStateToProps = ({ locations: { user_location } }) => ({
+  lat: user_location.lat,
+  lng: user_location.lng
+});
+export default connect(mapStateToProps)(RequistBag);
 
 const RequestBagStyles = styled.div`
   padding: 7rem 0;
