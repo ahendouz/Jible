@@ -10,6 +10,7 @@ const reduceShapePoints = require("../../utils/reduceShapePoints");
 
 const requireAuth = require("../../utils/requireAuth");
 const Bag = require("../../models/Bag");
+const Rider = require("../../models/Rider");
 
 // GET - api/request/test - Test Request Route.
 
@@ -62,15 +63,15 @@ router.post(
 
 router.post("/add_bag", async ({ body: { from, to } }, res) => {
   // Find all the possible routes
-  const data = await possibleRoutes(from, to);
+  // const data = await possibleRoutes(from, to);
 
   // get locatoin lat & lag
   const location = await getLocation(from);
 
-  // Assign the bag to the nearest Rider.
+  // Find the nearest rider to the bag.
   const rider = await Rider.find(
     {
-      location: {
+      coordinates: {
         $near: {
           $geometry: {
             type: "Point",
@@ -80,12 +81,26 @@ router.post("/add_bag", async ({ body: { from, to } }, res) => {
       }
     },
     { limit: 1 }
-  );
+  ).select("bags");
 
-  // TODO: Check if the Rider has already a bag.
+  console.log("🚙🚙🚙🚙🚙", rider[0].bags);
+
+  // This should be a function that will be called each time we want to assign A bag to a rider.
+  // Check if the Rider has already a bag.
+  if (rider[0].bags.length > 0) {
+    // The rider already has a bag, Send a shared bag reqest to the bag's owner.
+    // send a request bag share to the owners of the bag.
+    // if they reject than we assign the bag to another rider.
+    // assign it to a rider that does not have any bag
+    // If they accept of 3min pass we assign it to this rider
+    // Assign the bag to him. + Add the bag
+  } else {
+    // The rider doesnt have any bag
+    // Check if the rider is active of nah.
+    // Assign the bag to him. + Add the bag
+  }
+
   return res.json({ from });
-  // TODO: If yes send a request to the owner of the bag a shared bag reqest.
-  // TODO: if he acespt than we assign it to that Rider.
   // TODO: if he doesnt accept we call function Assign the bag to another Rider except the last one.
 });
 

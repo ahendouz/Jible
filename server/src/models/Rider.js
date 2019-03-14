@@ -9,8 +9,9 @@ const riderSchema = new Schema({
     type: Boolean,
     default: true
   },
-  location: { type: { type: String }, coordinates: [] }
+  bags: [],
+  coordinates: []
 });
 
-riderSchema.index({ location: "2dsphere" });
+riderSchema.index({ coordinates: "2dsphere" });
 module.exports = Rider = mongoose.model("rider", riderSchema);

@@ -19,7 +19,6 @@ const userSchema = new Schema({
     type: Boolean,
     default: true
   },
-  location: { type: { type: String }, coordinates: [] },
   date: { type: Date, default: Date.now }
 });
 
