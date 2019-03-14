@@ -6,6 +6,9 @@ import { connect } from "react-redux";
 import { BtnGreenStyle } from "../../styles";
 import TextFieldGroup from "../common/TextFieldGroup";
 import { getMap } from "../../utils/getMap";
+// import io from "socket.io-client";
+
+// const socket = io.connect("/");
 
 class RequistBag extends Component {
   state = {
@@ -92,6 +95,11 @@ class RequistBag extends Component {
       bagProcess,
       time
     } = this.state;
+
+    // socket.on("test", data => {
+    //   console.log("🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆", data);
+    // });
+    // const socket = window.io.connect("/");
     return (
       <RequestBagStyles className="wrapper">
         <h1>Request a bag</h1>

@@ -31,7 +31,6 @@ router.post("/users_location", requireAuth, async (req, res) => {
   return res.json(req.body);
 });
 
-console.log(router);
 // const server = require("http").Server(app);
 // const io = require("socket.io")(server);
 

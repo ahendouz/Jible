@@ -9,7 +9,7 @@ const riderSchema = new Schema({
     type: Boolean,
     default: true
   },
-  bags: [],
+  bags: [{ type: Schema.Types.ObjectId, ref: "bags" }],
   coordinates: []
 });
 

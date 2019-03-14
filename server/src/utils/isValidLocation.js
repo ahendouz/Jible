@@ -6,7 +6,7 @@ const isValidLocation = async location => {
       process.env.MAP_SECRET
     }&location=${location}`
   );
-  console.log("🦖", response.data.results[0].locations[0].latLng);
+  // console.log("🦖", response.data.results[0].locations[0].latLng);
   const isValid =
     response.data.results[0].locations[0].geocodeQualityCode.split("X")
       .length <= 2;
