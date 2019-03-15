@@ -21,10 +21,10 @@ const Navbar = ({ isAuthenticated, user }) => {
 const mapStateToProps = ({
   auth: {
     isAuthenticated,
-    user: { name, avatar }
+    user: { name, avatar, type }
   }
 }) => ({
   isAuthenticated,
-  user: { name, avatar }
+  user: { name, avatar, type }
 });
 export default connect(mapStateToProps)(Navbar);

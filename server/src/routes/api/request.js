@@ -12,6 +12,7 @@ const assignBagToRider = require("../../utils/assignBagToRider");
 const requireAuth = require("../../utils/requireAuth");
 const Bag = require("../../models/Bag");
 const Rider = require("../../models/Rider");
+// const Consumer = require("../../models/Consumer");
 
 // GET - api/request/test - Test Request Route.
 
@@ -88,5 +89,46 @@ router.post(
 );
 
 // TODO - change the state of the bag from (picked, delivered).
+
+// Requist user's bag.
+router.get("/my_bags", requireAuth, async ({ user: { id } }, res) => {
+  console.log(id);
+  const myBags = await Bag.findOne({ owner: { _id: id } });
+  const rider = await Rider.findOne({ _id: myBags.rider }).populate("user", [
+    "name",
+    "number",
+    "avatar"
+  ]);
+  const { name, avatar, number } = rider.user;
+  console.log(name, avatar);
+  const { description, items, from, to } = myBags;
+  if (myBags) {
+    return res.json({
+      description,
+      items,
+      from,
+      to,
+      avatar,
+      rider: { name, avatar, number }
+    });
+  }
+  return res.json({ msg: "could not find any user with that id." });
+});
+
+// Requist riders bag.
+router.get("/bags_todo", requireAuth, async ({ user: { id } }, res) => {
+  const bagsTodo = await Rider.findOne({ user: { _id: id } }).populate("bags", [
+    "description",
+    "items",
+    "from",
+    "to"
+  ]);
+  console.log(bagsTodo);
+  // const { description, items, from, to } = myBags;
+  if (bagsTodo) {
+    return res.json(bagsTodo);
+  }
+  return res.json({ msg: "could not find any user with that id." });
+});
 
 module.exports = router;

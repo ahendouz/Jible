@@ -6,11 +6,11 @@ const io = require("../index");
 const assign = async (bagId, riderId) => {
   // Assign the bag to him.
   const rider = await Rider.findOneAndUpdate(
-    { riderId },
+    { _id: riderId },
     { $push: { bags: { _id: bagId } } },
     { new: true }
   );
-  // Add the rider id to the bag
+  //   Add the rider id to the bag
   const bag = await Bag.findOneAndUpdate(
     { _id: bagId },
     { $set: { rider: { _id: riderId } } },
@@ -40,7 +40,6 @@ const assignBagToRider = async (
     },
     { limit: 1 }
   ).select("bags isConnected");
-
   const { _id, isConnected, bags } = rider[0];
 
   // Add new bag.
@@ -57,18 +56,18 @@ const assignBagToRider = async (
   // Check if the Rider has already a bag.
   if (bags.length > 0 && isConnected) {
     // The rider already has a bag, Send a shared bag reqest to the bag's owner.
-    // send a request bag share to the owners of the bag.
-    // if they reject than we assign the bag to another rider.
-    // assign it to a rider that does not have any bag
-    // If they accept of 3min pass we assign it to this rider
-    // Assign the bag to him. + Add the bag
-    assign(bagId, rider._id);
+    // TODO: send a request bag share to the owners of the bag.
+    // TODO: if they reject than we assign the bag to another rider.
+    // TODO: assign it to a rider that does not have any bag
+    // TODO: If they accept of 3min pass we assign it to this rider
+    // TODO: Assign the bag to him. + Add the bag
+    assign(bagId, _id);
   } else {
     // The rider doesnt have any bag
-    // Check if the rider is active of nah.
+    // TODO: Check if the rider is active of nah.
     if (isConnected) {
-      // send to the rider new assignment request.
-      assign(bagId, rider._id);
+      // TODO: send to the rider new assignment request.
+      assign(bagId, _id);
     }
   }
 };

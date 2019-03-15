@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Route, Switch, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 import Navigations from "./Navigations";
 import MyBags from "./MyBags";
@@ -8,26 +9,44 @@ import MyProfile from "./MyProfile";
 import MyAddress from "./MyAddress";
 import FAQ from "./FAQ";
 import RequistBag from "./RequestBag";
+import BagsTodo from "./BagsTodo";
+import State from "./State";
 
-const Dashboard = () => {
+const Dashboard = ({ type }) => {
   return (
     <DashboardStyle className="wrapper">
-      <Navigations />
+      <Navigations type={type} />
       {window.location.pathname === "/dashboard" && (
         <Redirect to="/dashboard/profile" />
       )}
-      <Switch>
-        <Route path="/dashboard/my_bags" component={MyBags} />
-        <Route path="/dashboard/profile" component={MyProfile} />
-        <Route path="/dashboard/my_address" component={MyAddress} />
-        <Route path="/dashboard/fqa" component={FAQ} />
-      </Switch>
+      {type === "cunsumer" ? (
+        <Switch>
+          <Route path="/dashboard/my_bags" component={MyBags} />
+          <Route path="/dashboard/profile" component={MyProfile} />
+          <Route path="/dashboard/my_address" component={MyAddress} />
+          <Route path="/dashboard/fqa" component={FAQ} />
+        </Switch>
+      ) : (
+        <Switch>
+          <Route path="/dashboard/bags_todo" component={BagsTodo} />
+          <Route path="/dashboard/profile" component={MyProfile} />
+          <Route path="/dashboard/state" component={State} />
+        </Switch>
+      )}
       <RequistBag />
     </DashboardStyle>
   );
 };
 
-export default Dashboard;
+const mapStateToProps = ({
+  auth: {
+    user: { type }
+  }
+}) => ({
+  type
+});
+
+export default connect(mapStateToProps)(Dashboard);
 
 const DashboardStyle = styled.div`
   display: flex;

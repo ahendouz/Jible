@@ -53,8 +53,8 @@ export const NavbarStyle = styled.nav`
         > button {
           position: absolute;
           bottom: -200%;
-          left: 0%;
-          width: 100%;
+          right: 0%;
+          width: 100px;
           background: ${props => props.theme.gray_2};
           visibility: hidden;
         }
