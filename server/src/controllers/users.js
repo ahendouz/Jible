@@ -1,79 +1,79 @@
-const bcrypt = require("bcryptjs");
-
 const createToken = require("../services/createToken");
 const validateSignin = require("../validation/signin");
 const validateSignup = require("../validation/signup");
+const userType = require("../helpers/userType");
+const findType = require("../helpers/findType");
+const comparePassword = require("../helpers/comparePassword");
+const {
+  BAD_REQUEST,
+  CONFLICT,
+  SUCCESS,
+  UNPROCESSABLE_ENTITY,
+  FORBIDDEN
+} = require("../constants/httpstatuses");
 
-// Modeles.
-const User = require("../models/User");
-const Rider = require("../models/Rider");
-const Consumer = require("../models/Consumer");
-
+// Sign up.
 const signup = async (
-  { params: { type }, body: { name, email, password } },
+  { params: { type }, body: { name, email, password, phoneNumber } },
   res
 ) => {
-  const { errors, isValid } = validateSignup(name, email, password);
-
   // Validation.
+  const { errors, isValid } = validateSignup(name, email, password);
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(BAD_REQUEST).json(errors);
   }
-  // Profile = Rider || Consumer.
-  let Profile;
 
-  type === "rider"
-    ? (Profile = Rider)
-    : type === "consumer"
-    ? (Profile = Consumer)
-    : res.status(403).json({ msg: "Not a valid user type" });
+  // Check the type of the user either a rider or a consumer.
+  let User = userType(type);
+
+  // If the type is not "rider" or a "consumer".
+  if (!User) {
+    return res.status(FORBIDDEN).json({ msg: "Not a valid user type" });
+  }
 
   const user = await User.findOne({ email });
-
   // Check our db if we already have a user with that email.
   if (user) {
-    return res.json({ msg: "Email already exists" });
+    return res.status(CONFLICT).json({ msg: "Email already exists" });
   } else {
     // Save the new user to the database.
     const newUser = await new User({
-      type,
       name,
       email,
-      password
+      password,
+      phoneNumber
     }).save();
-
-    // Save a new (Robio or Customer) profile.
-    const newProfile = await new Profile({ user: { _id: newUser.id } }).save();
     // Return token.
-    return res.status(200).json({
+    return res.status(SUCCESS).json({
       token: `Bearer ${createToken({ user: newUser })}`
     });
   }
 };
 
+// Sign in
 const signin = async ({ body: { email, password } }, res) => {
   // Validation.
   const { errors, isValid } = validateSignin(email, password);
   if (!isValid) {
-    return res.status(400).json({ errors });
+    return res.status(BAD_REQUEST).json({ errors });
   }
-  // Find the user.
-  const user = await User.findOne({ email });
 
-  // If there is no user.
+  // Find the type of the user.
+  const user = await findType(email, undefined);
+  // There's no user.
   if (!user) {
-    return res.status(422).json("Email not found");
+    return res.status(CONFLICT).json({ msg: "Email not found" });
   }
 
   // Compear password.
-  if (user.password) {
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    if (!isValidPassword) {
-      // Password is invalid.
-      return res.status(422).json("Password is invalid");
-    }
-  } else {
-    return res.status(400).json({ msg: "Please signin with facebook." });
+  const { done, msg, statusCode } = await comparePassword(
+    (password1 = password),
+    (password2 = user.password)
+  );
+
+  // Something went wrong.
+  if (!done) {
+    return res.status(statusCode).json({ msg: msg });
   }
 
   // Respond with a token.
@@ -82,6 +82,7 @@ const signin = async ({ body: { email, password } }, res) => {
   });
 };
 
+// Auth via facebook.
 const facebookOAuth = async (
   {
     user: {
@@ -92,29 +93,29 @@ const facebookOAuth = async (
   },
   res
 ) => {
-  // Profile = Rider || Consumer.
-  let Profile;
+  // Check the type of the user either a rider or a consumer.
+  let User = userType(type);
 
-  type === "rider"
-    ? (Profile = Rider)
-    : type === "consumer"
-    ? (Profile = Consumer)
-    : res.status(403).json({ msg: "Not a valid user type" });
+  // If the type is not "rider" or a "consumer".
+  if (!User) {
+    return res.status(FORBIDDEN).json({ msg: "Not a valid user type" });
+  }
 
   const user = await User.findOne({ email });
+  // if there's a user sign the user in
   if (user) {
     return res.send({
       token: `Bearer ${createToken({ user })}`
     });
   }
+
+  // if there's no user with that email, create new user.
   const newUser = await new User({
     method: "facebook",
-    type,
     name,
     email,
     avatar: value.value
   }).save();
-  const newProfile = await new Profile({ user: { _id: newUser.id } }).save();
   return res.send({
     token: `Bearer ${createToken({ user: newUser })}`
   });
