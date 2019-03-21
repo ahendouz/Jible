@@ -1,13 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
 const passportService = require("../../services/passport");
+const requireFbAuth = require("../../services/requireFbAuth");
 
-const { signup, signin, facebookOAuth } = require("../../authentication");
-
-const requireFbAuth = passport.authenticate("facebookToken", {
-  session: false
-});
+const { signup, signin, facebookOAuth } = require("../../controllers/users");
 
 // GET - api/users/test - Test Users Route.
 router.get("/test", (req, res) => res.json({ msg: "Users Works" }));

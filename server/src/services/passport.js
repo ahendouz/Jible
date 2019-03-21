@@ -3,7 +3,7 @@ const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const FacebookStrategy = require("passport-facebook-token");
 
-const User = require("../models/User");
+const findType = require("../helpers/findType");
 
 // Set up Options for Jwt strategy.
 const jwtOpts = {};
@@ -14,10 +14,9 @@ jwtOpts.secretOrKey = process.env.SECRET;
 passport.use(
   "jwt",
   new JwtStrategy(jwtOpts, async (jwt_payload, done) => {
-    const { _id } = jwt_payload;
-
-    // See if the user id in the payload excsts in our database.
-    const user = await User.findById({ _id });
+    const { _id } = await jwt_payload;
+    // Find user type
+    const user = await findType(undefined, _id);
     if (user) {
       return done(null, user);
     }
@@ -37,7 +36,6 @@ passport.use(
       const {
         _json: { name, email }
       } = profile;
-      // console.log("Profile", profile);
       try {
         done(null, profile);
       } catch (err) {

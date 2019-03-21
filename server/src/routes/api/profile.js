@@ -1,60 +1,35 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcryptjs");
 
-const requireAuth = require("../../utils/requireAuth");
-
-const validateProfile = require("../../validation/profile");
+const requireAuth = require("../../services/requireAuth");
+const {
+  editProfile,
+  getUser,
+  changeStatus,
+  addLocation,
+  getLocations,
+  getStatus
+} = require("../../controllers/profile");
 
 // GET - api/profile/test - Test Users Route.
 router.get("/test", (req, res) => res.json({ msg: "Profile Works" }));
 
-// POST = PRIVATE = api/porfile/edit_profile - edit user's profile.
-router.post(
-  "/edit_profile",
-  requireAuth,
-  async (
-    { user: { id }, body: { name, email, password, avatar, number } },
-    res
-  ) => {
-    const { errors, isValid } = validateProfile(name, email, password);
-    if (!isValid) {
-      return res.status(400).json(errors);
-    }
-    bcrypt.genSalt(10, async (err, salt) => {
-      bcrypt.hash(password, salt, async (err, hash) => {
-        if (err) throw err;
-        // Hashong the new version
-        password = hash;
+// POST => PRIVATE <= api/porfile/edit_profile - edit user's profile.
+router.post("/edit_profile", requireAuth, editProfile);
 
-        const profileFields = {
-          name,
-          email,
-          password,
-          avatar,
-          number
-        };
-        const user = await User.findOneAndUpdate(
-          { _id: id },
-          { $set: profileFields },
-          { new: true }
-        );
-        res.status(200).json({ msg: "Your profile is updated" });
-      });
-    });
-  }
-);
+// GET - api/profile/:user_id - get user information.
+router.get("/user/:_id", getUser);
 
-router.get("/user/:user_id", async ({ params: { user_id: _id } }, res) => {
-  // find user by it's id.
-  try {
-    const user = await User.findOne({ _id });
-    if (user) {
-      return res.status(200).json({ user });
-    }
-  } catch (err) {
-    return res.json({ msg: "User not fround" });
-  }
-});
+// POST => PRIVATE <= - api/profile/change_status - change the state of the rider from connected to desconected.
+router.post("/change_status", requireAuth, changeStatus);
+
+// GET => PRIVATE <= - api/profile/get_status - get the status of the rider.
+router.get("/get_status", requireAuth, getStatus);
+
+// POST => PRIVATE <= - api/profile/add_location - add a location
+router.post("/add_location", requireAuth, addLocation);
+
+// GET => PRIVATE <= - api/profile/get_locations - get a locations of the user.
+router.post("/get_locations", requireAuth, getLocations);
 
 module.exports = router;

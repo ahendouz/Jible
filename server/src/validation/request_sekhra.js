@@ -1,7 +1,7 @@
 const Validator = require("validator");
 const isEmpty = require("./isEmpty");
 
-const validateRequestBag = (description, items, from, to) => {
+const validateRequestSekhra = (description, items, from, to) => {
   let errors = {};
 
   description = !isEmpty(description) ? description : "";
@@ -31,4 +31,4 @@ const validateRequestBag = (description, items, from, to) => {
   };
 };
 
-module.exports = validateRequestBag;
+module.exports = validateRequestSekhra;
