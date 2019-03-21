@@ -25,12 +25,11 @@ const port = process.env.PORT || 4000;
 app.use("/api/users", users);
 app.use("/api/profile", profile);
 app.use("/api/sekhra", sekhra);
-// app.use("/api/location", location);
 
 server.listen(port, () =>
   console.log(`Server is running on port ${port} 🚀🚀🚀`)
 );
 
-const updateUsersLocation = require("./helpers/updateUsersloction");
+const updateUsersLocation = require("./helpers/updateUsersLocation");
 
 updateUsersLocation(server);
