@@ -12,8 +12,8 @@ const Navigations = ({ type }) => {
   if (type === "consumer") {
     navigations = (
       <div>
-        <NavLink activeStyle={styles} to="/dashboard/my_bags">
-          my bags
+        <NavLink activeStyle={styles} to="/dashboard/my_sekhras">
+          my sekhras
         </NavLink>
         <NavLink activeStyle={styles} to="/dashboard/profile">
           my profile
@@ -29,8 +29,8 @@ const Navigations = ({ type }) => {
   } else {
     navigations = (
       <div>
-        <NavLink activeStyle={styles} to="/dashboard/bags_todo">
-          Bag TODO
+        <NavLink activeStyle={styles} to="/dashboard/sekhras_todo">
+          sekhra TODO
         </NavLink>
         <NavLink activeStyle={styles} to="/dashboard/profile">
           My profile
