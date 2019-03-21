@@ -4,6 +4,9 @@ export const NavbarStyle = styled.nav`
   height: 15vh;
   width: 100%;
   padding: 0 8rem;
+  @media (max-width: 900px) {
+    padding: 0 3rem;
+  }
   display: flex;
   justify-content: space-between;
   .logo {
@@ -18,6 +21,11 @@ export const NavbarStyle = styled.nav`
     .navbar_unauthorized {
       display: flex;
       .btns {
+        @media (max-width: 900px) {
+          button {
+            padding: 0.7rem 1.1rem !important;
+          }
+        }
         button {
           font-size: 1.5rem;
           padding: 0.8rem 5rem;
@@ -47,16 +55,22 @@ export const NavbarStyle = styled.nav`
       p {
         font-size: 1.2rem;
         position: relative;
-        &:hover > button {
+        @media (max-width: 700px) {
+          margin-right: 4rem;
+        }
+        &:hover .dropDown {
           visibility: visible;
         }
-        > button {
+        .dropDown {
           position: absolute;
-          bottom: -200%;
+          top: 96%;
           right: 0%;
           width: 100px;
-          background: ${props => props.theme.gray_2};
           visibility: hidden;
+          > button {
+            background: ${props => props.theme.gray_2};
+            width: 100%;
+          }
         }
       }
     }

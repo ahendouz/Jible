@@ -9,5 +9,5 @@ if (token) {
       riderId: jwt_decode(token)._id,
       location: await getCoordinates()
     });
-  }, 5000);
+  }, 20000);
 }

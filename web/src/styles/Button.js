@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const button = styled.button`
+export const button = styled.button`
   border: none;
   padding: 1rem;
   font-family: Light;

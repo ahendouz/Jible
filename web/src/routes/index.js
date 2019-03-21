@@ -23,7 +23,7 @@ export const Root = () => (
         <Route path="/" exact component={Home} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/request_sekhra" component={RequestSekhra} />
-        {/* <Redirect to="/" />; */}
+        <Redirect to="/" />;
       </Switch>
       <Footer />
     </Fragment>

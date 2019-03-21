@@ -4,7 +4,7 @@ export const getMap = location => {
   // 'map' refers to a <div> element with the ID map
   window.L.mapquest.map("map", {
     center: location,
-    layers: window.L.mapquest.tileLayer("dark"),
+    layers: window.L.mapquest.tileLayer("map"),
     zoom: 12
   });
 };

@@ -30,11 +30,12 @@ class Signup extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { userType, signupUserAction } = this.props;
-    const { name, email, password } = this.state;
+    const { name, email, password, phone_number } = this.state;
     const newUser = {
       name,
       email,
-      password
+      password,
+      phoneNumber: phone_number
     };
     signupUserAction(userType, newUser);
   };
