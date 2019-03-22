@@ -4,12 +4,12 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Navigations from "./Navigations";
-import MyBags from "./MyBags";
+import MySekhras from "./MySekhras";
 import MyProfile from "./MyProfile";
 import MyAddress from "./MyAddress";
 import FAQ from "./FAQ";
-import RequistBag from "./RequestBag";
-import BagsTodo from "./BagsTodo";
+import RequistSekhra from "./RequestSekhra";
+import SekhrasTodo from "./SekhrasTodo";
 import State from "./State";
 
 const Dashboard = ({ type }) => {
@@ -21,19 +21,19 @@ const Dashboard = ({ type }) => {
       )}
       {type === "cunsumer" ? (
         <Switch>
-          <Route path="/dashboard/my_bags" component={MyBags} />
+          <Route path="/dashboard/my_sekhras" component={MySekhras} />
           <Route path="/dashboard/profile" component={MyProfile} />
           <Route path="/dashboard/my_address" component={MyAddress} />
           <Route path="/dashboard/fqa" component={FAQ} />
         </Switch>
       ) : (
         <Switch>
-          <Route path="/dashboard/bags_todo" component={BagsTodo} />
+          <Route path="/dashboard/sekhras_todo" component={SekhrasTodo} />
           <Route path="/dashboard/profile" component={MyProfile} />
           <Route path="/dashboard/state" component={State} />
         </Switch>
       )}
-      <RequistBag />
+      <RequistSekhra />
     </DashboardStyle>
   );
 };

@@ -9,27 +9,26 @@ class MyProfile extends Component {
   state = {
     name: "",
     email: "",
-    password: "",
     avatar: "",
-    number: "",
+    phoneNumber: "",
     errors: {}
   };
 
   componentDidMount = () => {
     const {
-      user: { name, email, avatar, number }
+      user: { name, email, avatar, phoneNumber }
     } = this.props;
 
-    this.fillForms(name, email, avatar, number);
+    this.fillForms(name, email, avatar, phoneNumber);
   };
 
   componentWillReceiveProps = nextProps => {
-    const { name, email, avatar, number } = nextProps.user;
-    this.fillForms(name, email, avatar, number);
+    const { name, email, avatar, phoneNumber } = nextProps.user;
+    this.fillForms(name, email, avatar, phoneNumber);
   };
 
-  fillForms = (name, email, avatar, number) => {
-    this.setState({ name, email, avatar, number });
+  fillForms = (name, email, avatar, phoneNumber) => {
+    this.setState({ name, email, avatar, phoneNumber });
   };
 
   handleChange = e => {
@@ -42,23 +41,19 @@ class MyProfile extends Component {
   handleSubmit = e => {
     e.preventDefault();
     // const { signinUserAction } = this.props;
-    const { name, email, password, number, avatar } = this.state;
+    const { name, email, phoneNumber, avatar } = this.state;
     const { editUserProfileAction } = this.props;
     const profileFields = {
       name,
       email,
-      password,
-      number,
+      phoneNumber,
       avatar
     };
     editUserProfileAction(profileFields);
   };
 
   render() {
-    const { name, email, password, avatar, number } = this.state;
-    const {
-      user: { method }
-    } = this.props;
+    const { name, email, avatar, phoneNumber } = this.state;
     return (
       <div className="dashboard_edit-profile">
         <div>
@@ -69,7 +64,7 @@ class MyProfile extends Component {
             <div className="info">
               <p>{name}</p>
               <p style={{ fontSize: "1.1rem", color: "#ccc" }}>
-                {!number ? "Add your phone number" : number}
+                {!phoneNumber ? "Add your phone phoneNumber" : phoneNumber}
               </p>
             </div>
           </div>
@@ -98,21 +93,11 @@ class MyProfile extends Component {
               info="Profile image"
               onChange={this.handleChange}
             />
-            {method !== "facebook" && (
-              <TextFieldGroup
-                placeholder=""
-                name="password"
-                type="password"
-                value={password}
-                info="Your Password"
-                onChange={this.handleChange}
-              />
-            )}
             <TextFieldGroup
               placeholder=""
-              name="number"
-              type="number"
-              value={number}
+              name="phoneNumber"
+              type="phoneNumber"
+              value={phoneNumber}
               info="Phone"
               onChange={this.handleChange}
             />

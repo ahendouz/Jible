@@ -10,7 +10,7 @@ import { getMap } from "../../utils/getMap";
 
 // const socket = io.connect("/");
 
-class RequistBag extends Component {
+class Requistsekhra extends Component {
   state = {
     description: "",
     items: "",
@@ -20,7 +20,7 @@ class RequistBag extends Component {
     ridePrice: "",
     time: "",
     shapePoints: [],
-    bagProcess: "request"
+    sekhraProcess: "request"
   };
 
   handleChange = e => {
@@ -43,17 +43,17 @@ class RequistBag extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { success, bagProcess, description, items, from, to } = this.state;
-    const bagDescription = {
+    const { success, sekhraProcess, description, items, from, to } = this.state;
+    const sekhraDescription = {
       description,
       items,
       from,
       to,
       orderProcess: "ready to order"
     };
-    if (bagProcess === "request") {
+    if (sekhraProcess === "request") {
       axios
-        .post("api/request/request_bag", bagDescription)
+        .post("api/request/request_sekhra", sekhraDescription)
         .then(res => {
           const { success, distance, ridePrice, shapePoints, time } = res.data;
           this.setState({
@@ -62,15 +62,15 @@ class RequistBag extends Component {
             ridePrice,
             shapePoints,
             time,
-            bagProcess: "between"
+            sekhraProcess: "between"
           });
         })
         .catch(err => {
           console.log(err);
         });
-    } else if (bagProcess === "between" && success) {
+    } else if (sekhraProcess === "between" && success) {
       axios
-        .post("api/request/add_bag", bagDescription)
+        .post("api/request/add_sekhra", sekhraDescription)
         .then(res => console.log("🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼", res.data))
         .catch(err => console.log("🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼", err));
     }
@@ -92,7 +92,7 @@ class RequistBag extends Component {
       to,
       ridePrice,
       distance,
-      bagProcess,
+      sekhraProcess,
       time
     } = this.state;
 
@@ -101,8 +101,8 @@ class RequistBag extends Component {
     // });
     // const socket = window.io.connect("/");
     return (
-      <RequestBagStyles className="wrapper">
-        <h1>Request a bag</h1>
+      <RequestsekhraStyles className="wrapper">
+        <h1>Request a sekhra</h1>
         <div>
           <form onSubmit={this.handleSubmit}>
             <TextFieldGroup
@@ -136,8 +136,8 @@ class RequistBag extends Component {
           </form>
 
           <div id="map">
-            {bagProcess === "between" && (
-              <div className="bag_info">
+            {sekhraProcess === "between" && (
+              <div className="sekhra_info">
                 <div>
                   <p>Estimated Price</p>
                   <p>{ridePrice}</p>
@@ -151,7 +151,7 @@ class RequistBag extends Component {
             )}
           </div>
         </div>
-      </RequestBagStyles>
+      </RequestsekhraStyles>
     );
   }
 }
@@ -160,9 +160,9 @@ const mapStateToProps = ({ locations: { user_location } }) => ({
   lat: user_location.lat,
   lng: user_location.lng
 });
-export default connect(mapStateToProps)(RequistBag);
+export default connect(mapStateToProps)(Requistsekhra);
 
-const RequestBagStyles = styled.div`
+const RequestsekhraStyles = styled.div`
   padding: 7rem 0;
   min-height: 70vh;
   > h1 {
@@ -182,7 +182,7 @@ const RequestBagStyles = styled.div`
     > div {
       flex: 1;
       margin-left: 1rem;
-      .bag_info {
+      .sekhra_info {
         border: 1px solid gray;
         border-radius: 3px;
         padding: 1rem;

@@ -10,7 +10,7 @@ import {
 import Navbar from "../components/layout/Navbar";
 import Home from "../components/Home";
 import Dashboard from "../components/Dashboard/Dashboard";
-import RequestBag from "../components/RequestBag/RequestBag";
+import RequestSekhra from "../components/RequestSekhra/RequestSekhra";
 import Footer from "../components/layout/Footer";
 
 import PrivateRoute from "../lib/PrivateRoute";
@@ -22,7 +22,7 @@ export const Root = () => (
       <Switch>
         <Route path="/" exact component={Home} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
-        <PrivateRoute path="/request_bag" component={RequestBag} />
+        <PrivateRoute path="/request_sekhra" component={RequestSekhra} />
         {/* <Redirect to="/" />; */}
       </Switch>
       <Footer />

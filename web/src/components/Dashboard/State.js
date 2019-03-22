@@ -7,11 +7,11 @@ import { ReactComponent as Disconnect } from "../../icons/disconnect.svg";
 
 class State extends Component {
   stste = {
-    bags: []
+    sekhras: []
   };
 
   componentDidMount = async () => {
-    // const State = await axios.get("/api/request/bags_todo");
+    // const State = await axios.get("/api/request/sekhras_todo");
     // console.log(State);
   };
   render() {
