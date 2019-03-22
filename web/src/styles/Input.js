@@ -18,7 +18,7 @@ export const InputStyle = styled.div`
       font-family: Regular;
       outline: none;
       &::placeholder {
-        color: ${props => props.theme.dark_gray_1};
+        color: ${props => props.theme.gray_3};
         font-family: Regular;
       }
     }

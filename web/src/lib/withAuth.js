@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 import { store } from "../store";
 import { setCurrentUser, logoutUser } from "../actions/authActions";
 
-import { getUserLocation, test } from "../utils/getUserLocation";
+import { getUserLocation } from "../utils/getUserLocation";
 
 const token = localStorage.jwtToken;
 // Check for token

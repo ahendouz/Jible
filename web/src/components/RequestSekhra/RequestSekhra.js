@@ -5,22 +5,21 @@ import { connect } from "react-redux";
 
 import { BtnGreenStyle } from "../../styles";
 import TextFieldGroup from "../common/TextFieldGroup";
-import { getMap } from "../../utils/getMap";
-// import io from "socket.io-client";
-
-// const socket = io.connect("/");
 
 class Requistsekhra extends Component {
   state = {
+    map: "",
     description: "",
     items: "",
     from: "",
+    fromSearches: [],
     to: "",
+    toSearches: [],
     distance: "",
     ridePrice: "",
     time: "",
     shapePoints: [],
-    sekhraProcess: "request"
+    sekhraProcess: "Check"
   };
 
   handleChange = e => {
@@ -28,17 +27,78 @@ class Requistsekhra extends Component {
     this.setState({
       [name]: value
     });
+    if (name === "from" && value === "") {
+      this.setState({ fromSearches: [] });
+    }
+    if (name === "to" && value === "") {
+      console.log("object");
+      this.setState({ toSearches: [] });
+    }
+    if (name === "from" || name === "to") {
+      // const [locations] = this.props;
+      if (name === "from" && value !== "") {
+        const searches = this.props.locations.filter(location =>
+          location.includes(value)
+        );
+        this.setState({ fromSearches: searches });
+      } else if (name === "to" && value !== "") {
+        const searches = this.props.locations.filter(location =>
+          location.includes(value)
+        );
+        this.setState({ toSearches: searches });
+      }
+    }
   };
 
   componentDidMount = () => {
-    getMap([this.props.lat, this.props.lng]);
-    this.setLocation();
+    const location = [this.props.lat, this.props.lng];
+    this.setState({
+      map: `https://www.mapquestapi.com/staticmap/v5/map?key=iKQ5jnvoW6jeJCwdTYpIMevMRlkYgtAz&locations=${location}&size=500,500@2x`
+    });
   };
 
-  componentWillUpdate = (nextProps, nextState) => {
-    if (nextState.shapePoints.length > 1) {
-      this.setLocation(nextState.shapePoints);
-    }
+  requestSekhra = sekhraDescription => {
+    axios
+      .post("/api/sekhra/request_sekhra", sekhraDescription)
+      .then(res => {
+        console.log("🍓🍓", res.data);
+        const { from, to, distance, ridePrice, time } = res.data;
+        this.setState({
+          distance,
+          ridePrice,
+          time,
+          sekhraProcess: "Order now",
+          map: `https://open.mapquestapi.com/staticmap/v5/map?start=${from}|flag-start&end=${to}|flag-end&size=@2x&key=iKQ5jnvoW6jeJCwdTYpIMevMRlkYgtAz`,
+          success: true
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  addSekhra = sekhraDescription => {
+    const {
+      from,
+      to,
+      description,
+      items,
+      ridePrice,
+      time: duration,
+      distance
+    } = this.state;
+    axios
+      .post("/api/sekhra/add_sekhra", {
+        from,
+        to,
+        description,
+        items,
+        cost: ridePrice,
+        duration,
+        distance
+      })
+      .then(res => this.props.history.push("/"))
+      .catch(err => console.log("🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼", err));
   };
 
   handleSubmit = e => {
@@ -48,40 +108,23 @@ class Requistsekhra extends Component {
       description,
       items,
       from,
-      to,
-      orderProcess: "ready to order"
+      to
     };
-    if (sekhraProcess === "request") {
-      axios
-        .post("api/request/request_sekhra", sekhraDescription)
-        .then(res => {
-          const { success, distance, ridePrice, shapePoints, time } = res.data;
-          this.setState({
-            success,
-            distance,
-            ridePrice,
-            shapePoints,
-            time,
-            sekhraProcess: "between"
-          });
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else if (sekhraProcess === "between" && success) {
-      axios
-        .post("api/request/add_sekhra", sekhraDescription)
-        .then(res => console.log("🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼", res.data))
-        .catch(err => console.log("🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼🤞🏼", err));
+    if (sekhraProcess === "Check") {
+      this.requestSekhra(sekhraDescription);
+    } else if (sekhraProcess === "Order now" && success) {
+      this.addSekhra(sekhraDescription);
     }
   };
+  handleFromField = search => {
+    this.setState({ from: search, fromSearches: [] });
+  };
+  handleToField = search => {
+    this.setState({ to: search, toSearches: [] });
+  };
 
-  setLocation = (
-    shapePoints = [[33.995647, -6.846076], [33.995647, -6.846076]]
-  ) => {
-    window.L.mapquest.directions().route({
-      waypoints: shapePoints
-    });
+  hideRes = () => {
+    this.setState({ fromSearches: [], toSearches: [] });
   };
 
   render() {
@@ -96,12 +139,12 @@ class Requistsekhra extends Component {
       time
     } = this.state;
 
-    // socket.on("test", data => {
-    //   console.log("🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆", data);
-    // });
-    // const socket = window.io.connect("/");
     return (
-      <RequestsekhraStyles className="wrapper">
+      <RequestsekhraStyles
+        className="wrapper"
+        map={this.state.map}
+        onClick={() => this.hideRes()}
+      >
         <h1>Request a sekhra</h1>
         <div>
           <form onSubmit={this.handleSubmit}>
@@ -119,24 +162,44 @@ class Requistsekhra extends Component {
               value={items}
               onChange={this.handleChange}
             />
-            <TextFieldGroup
-              info="adress"
-              name="from"
-              type="text"
-              value={from}
-              onChange={this.handleChange}
-            />
-            <TextFieldGroup
-              name="to"
-              type="text"
-              value={to}
-              onChange={this.handleChange}
-            />
-            <BtnGreenStyle type="submit">Order now</BtnGreenStyle>
+            <div className="from">
+              <TextFieldGroup
+                info="adress"
+                name="from"
+                type="text"
+                value={from}
+                onChange={this.handleChange}
+              />
+              <ul onClick={e => e.stopPropagation()}>
+                {this.state.fromSearches.length > 0 &&
+                  this.state.fromSearches.map(search => (
+                    <li onClick={() => this.handleFromField(search)}>
+                      {search}
+                    </li>
+                  ))}
+              </ul>
+            </div>
+            <div className="to">
+              <TextFieldGroup
+                name="to"
+                type="text"
+                value={to}
+                onChange={this.handleChange}
+              />
+              <ul onClick={e => e.stopPropagation()}>
+                {this.state.toSearches.length > 0 &&
+                  this.state.toSearches.map(search => (
+                    <li onClick={() => this.handleToField(search)}>{search}</li>
+                  ))}
+              </ul>
+            </div>
+            <BtnGreenStyle type="submit">
+              {this.state.sekhraProcess}
+            </BtnGreenStyle>
           </form>
 
           <div id="map">
-            {sekhraProcess === "between" && (
+            {sekhraProcess === "Order now" && (
               <div className="sekhra_info">
                 <div>
                   <p>Estimated Price</p>
@@ -156,9 +219,15 @@ class Requistsekhra extends Component {
   }
 }
 
-const mapStateToProps = ({ locations: { user_location } }) => ({
+const mapStateToProps = ({
+  locations: { user_location },
+  auth: {
+    user: { locations }
+  }
+}) => ({
   lat: user_location.lat,
-  lng: user_location.lng
+  lng: user_location.lng,
+  locations: locations
 });
 export default connect(mapStateToProps)(Requistsekhra);
 
@@ -170,6 +239,18 @@ const RequestsekhraStyles = styled.div`
     margin-bottom: 5rem;
   }
   > div {
+    @media (max-width: 900px) {
+      flex-direction: column;
+      form {
+        order: 4;
+      }
+      #map {
+        order: 2;
+        height: 300px;
+        margin: 0;
+        margin-bottom: 2rem;
+      }
+    }
     display: flex;
     justify-content: space-between;
     form {
@@ -180,6 +261,9 @@ const RequestsekhraStyles = styled.div`
       }
     }
     > div {
+      position: relative;
+      background: url(${props => props.map}) no-repeat center;
+      background-size: cover;
       flex: 1;
       margin-left: 1rem;
       .sekhra_info {
@@ -195,12 +279,17 @@ const RequestsekhraStyles = styled.div`
         z-index: 9999;
         margin: 2%;
         display: inline-block;
+        > div:first-child {
+          font-size: 2rem;
+        }
+        > div:last-child {
+          font-size: 1.2rem;
+        }
         > div {
           display: flex;
           justify-content: space-between;
           align-items: center;
           > p:first-child {
-            font-size: 1.6rem;
           }
           > p:last-child {
             color: ${props => props.theme.green};
@@ -208,7 +297,6 @@ const RequestsekhraStyles = styled.div`
         }
         > div:last-child {
           > p:first-child {
-            font-size: 1rem;
             margin-right: auto;
           }
           > p:not(:first-child) {
@@ -217,6 +305,27 @@ const RequestsekhraStyles = styled.div`
           span {
             margin: 0 2px;
             color: ${props => props.theme.gray_1};
+          }
+        }
+      }
+    }
+
+    .from,
+    .to {
+      margin-bottom: 1.7rem;
+      > div {
+        margin: 0;
+      }
+      ul {
+        list-style: none;
+        background: #4a90e2;
+        color: white;
+        li {
+          padding: 1rem;
+          font-size: 1.4rem;
+          cursor: pointer;
+          &:not(:last-of-type) {
+            border-bottom: 1px solid ${props => props.theme.blueFb};
           }
         }
       }

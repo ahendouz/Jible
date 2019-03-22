@@ -8,6 +8,7 @@ import { ReactComponent as Password } from "../../icons/edit-3.svg";
 import { ReactComponent as Item } from "../../icons/archive.svg";
 import { ReactComponent as From } from "../../icons/From.svg";
 import { ReactComponent as To } from "../../icons/To.svg";
+import { ReactComponent as Map } from "../../icons/Map-pin.svg";
 
 import { InputStyle } from "../../styles";
 
@@ -46,8 +47,11 @@ const TextFieldGroup = ({
     case "to":
       icon = <To />;
       break;
-    case "number":
+    case "phoneNumber":
       icon = <Phone />;
+      break;
+    case "address":
+      icon = <Map />;
       break;
     default:
     // icon = <User />;

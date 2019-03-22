@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER } from "../actions/types";
+import { SET_CURRENT_USER, ADD_LOCATION } from "../actions/types";
 import { isEmpty } from "../validation/isEmpty";
 
 const initialState = {
@@ -13,8 +13,16 @@ export default function(state = initialState, action) {
         ...state,
         isAuthenticated: !isEmpty(action.payload),
 
-        user: action.payload
+        user: action.payload,
+        locations: action.payload.locations
       };
+    case ADD_LOCATION:
+      console.log("💩", action.payload.locations);
+      return {
+        ...state,
+        locations: action.payload
+      };
+
     default:
       return state;
   }

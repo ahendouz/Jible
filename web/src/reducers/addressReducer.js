@@ -1,5 +1,4 @@
-import { SAVE_ADDRESS } from "../actions/types";
-import { GET_CURRENT_LOCATION } from "../actions/types";
+import { SAVE_ADDRESS, GET_CURRENT_LOCATION } from "../actions/types";
 
 const initialState = {};
 
@@ -15,6 +14,7 @@ export default function(state = initialState, action) {
         user_location: { lat: action.payload.lat, lng: action.payload.lng },
         ...state
       };
+
     default:
       return state;
   }

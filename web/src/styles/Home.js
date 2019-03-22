@@ -25,6 +25,8 @@ export const HomeStyle = styled.div`
 
       .btns {
         display: flex;
+        
+        }
 
         button {
           padding: 1rem 2rem;
@@ -53,7 +55,6 @@ export const HomeStyle = styled.div`
     text-align: center;
     padding: 8rem 0;
     font-size: 1.3rem;
-
     > h1 {
       margin-bottom: 3rem;
       font-size: 3.6rem;
@@ -62,6 +63,12 @@ export const HomeStyle = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: center;
+      @media (max-width: 900px) {
+        flex-direction: column;
+        .block {
+          margin-bottom: 2rem;
+        }
+      }
       .block {
         h1 {
           color: ${props => props.theme.green};
@@ -81,6 +88,10 @@ export const HomeStyle = styled.div`
     }
     .phone {
       width: 40%;
+      @media (max-width: 900px) {
+        display: none;
+        width: 0;
+      }
       img {
         width: 100%;
         margin-bottom: -2.8%;
@@ -88,14 +99,23 @@ export const HomeStyle = styled.div`
     }
     .stores {
       margin-top: 14rem;
+      @media (max-width: 900px) {
+        margin-bottom: 5rem;
+      }
       > h1 {
         width: 63%;
         font-size: 2.6rem;
         color: white;
         font-family: Light;
         margin-bottom: 2rem;
+        @media (max-width: 900px) {
+          width: 100%;
+        }
       }
       .iphone_android {
+        @media (max-width: 900px) {
+          justify-content: center;
+        }
         display: flex;
         .store {
           height: 45px;
